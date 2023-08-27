@@ -5,6 +5,7 @@ import signal
 import sys
 
 # Setup
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(18, GPIO.OUT)  # Pino para a luz vermelha
 GPIO.setup(15, GPIO.OUT)  # Pino para a luz âmbar
