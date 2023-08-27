@@ -8,7 +8,7 @@ $semb_verde = $_POST['semb_verde'] ?? '0';
 $semb_amarelo = $_POST['semb_amarelo'] ?? '0';
 $semb_vermelho = $_POST['semb_vermelho'] ?? '0';
 
-$cmd = "python3 semafacilnonroot.py";
+$cmd = "python3 teste.py";
 
 if ($sema_verde || $sema_amarelo || $sema_vermelho) {
     $cmd .= " -SEMA $sema_verde $sema_amarelo $sema_vermelho";
