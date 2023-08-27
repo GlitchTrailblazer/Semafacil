@@ -23,6 +23,12 @@ pino_semaforos = {
     "B": {"verde": 16, "amarelo": 20, "vermelho": 21}
 }
 
+# Verificar se algum argumento foi inserido
+if not (args.SEMA or args.SEMB):
+    print("Erro: Nenhuma configuração de semáforo inserida. Use os argumentos -SEMA ou -SEMB para configurar os semáforos.")
+    print("Exemplo: python3 codigo.py -SEMA 5 2 3 -SEMB 4 1 2")
+    sys.exit(1)
+
 # Configuração
 GPIO.setmode(GPIO.BCM)
 for semaforo in pino_semaforos.values():
