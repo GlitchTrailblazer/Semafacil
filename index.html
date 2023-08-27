@@ -4,80 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Semáforos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            margin-top: 0;
-            padding: 10px 0;
-            color: #333;
-        }
-        h2 {
-            color: #007bff;
-            margin-top: 15px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-        input[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <!-- Adicionar o link para o Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Controle de Semáforos</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Controle de Semáforos</h1>
         <form action="executar.php" method="post">
-            <h2>Semáforo A</h2>
-            <label for="sema_verde">Tempo Verde:</label>
-            <input type="text" name="sema_verde"> segundos<br>
-            <label for="sema_amarelo">Tempo Amarelo:</label>
-            <input type="text" name="sema_amarelo"> segundos<br>
-            <label for="sema_vermelho">Tempo Vermelho:</label>
-            <input type="text" name="sema_vermelho"> segundos<br>
-    
-            <h2>Semáforo B</h2>
-            <label for="semb_verde">Tempo Verde:</label>
-            <input type="text" name="semb_verde"> segundos<br>
-            <label for="semb_amarelo">Tempo Amarelo:</label>
-            <input type="text" name="semb_amarelo"> segundos<br>
-            <label for="semb_vermelho">Tempo Vermelho:</label>
-            <input type="text" name="semb_vermelho"> segundos<br>
-    
-            <input type="submit" value="Executar">
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h2>Semáforo A</h2>
+                    <label for="sema_verde">Tempo Verde:</label>
+                    <input type="text" name="sema_verde" class="form-control" placeholder="segundos">
+                    <label for="sema_amarelo">Tempo Amarelo:</label>
+                    <input type="text" name="sema_amarelo" class="form-control" placeholder="segundos">
+                    <label for="sema_vermelho">Tempo Vermelho:</label>
+                    <input type="text" name="sema_vermelho" class="form-control" placeholder="segundos">
+                </div>
+                <div class="col-md-6">
+                    <h2>Semáforo B</h2>
+                    <label for="semb_verde">Tempo Verde:</label>
+                    <input type="text" name="semb_verde" class="form-control" placeholder="segundos">
+                    <label for="semb_amarelo">Tempo Amarelo:</label>
+                    <input type="text" name="semb_amarelo" class="form-control" placeholder="segundos">
+                    <label for="semb_vermelho">Tempo Vermelho:</label>
+                    <input type="text" name="semb_vermelho" class="form-control" placeholder="segundos">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Executar</button>
         </form>
     </div>
+
+    <!-- Adicionar os scripts do Bootstrap (jQuery e Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
