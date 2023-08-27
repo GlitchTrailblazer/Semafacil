@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Controle de Semáforos</h1>
-    <form id="formulario">
+    <form action="executar.php" method="post">
         <h2>Semáforo A</h2>
         Tempo Verde: <input type="text" name="sema_verde"> segundos<br>
         Tempo Amarelo: <input type="text" name="sema_amarelo"> segundos<br>
@@ -16,27 +16,7 @@
         Tempo Amarelo: <input type="text" name="semb_amarelo"> segundos<br>
         Tempo Vermelho: <input type="text" name="semb_vermelho"> segundos<br>
 
-        <input type="button" value="Executar" onclick="executar()">
+        <input type="submit" value="Executar">
     </form>
-    
-    <div id="resultado"></div>
-
-    <script>
-        function executar() {
-            var formulario = document.getElementById('formulario');
-            var resultado = document.getElementById('resultado');
-
-            var formData = new FormData(formulario);
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'executar.py', true);
-
-            xhr.onload = function() {
-                resultado.innerHTML = "<h1>Execução concluída</h1>";
-            };
-
-            xhr.send(formData);
-        }
-    </script>
 </body>
 </html>
