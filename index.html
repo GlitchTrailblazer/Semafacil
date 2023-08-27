@@ -9,40 +9,45 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f7f7f7;
-            color: #333;
+            background-color: #f5f5f5;
         }
-        h1 {
-            text-align: center;
-            padding: 20px;
-            background-color: #007bff;
-            color: #fff;
-            margin: 0;
-        }
-        form {
-            max-width: 500px;
-            margin: auto;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            padding: 10px 0;
+            color: #333;
+        }
         h2 {
-            margin-top: 20px;
             color: #007bff;
+            margin-top: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
         input[type="text"] {
             width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 3px;
         }
         input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px;
             border-radius: 3px;
             cursor: pointer;
         }
@@ -52,19 +57,27 @@
     </style>
 </head>
 <body>
-    <h1>Controle de Semáforos</h1>
-    <form action="executar.php" method="post">
-        <h2>Semáforo A</h2>
-        Tempo Verde: <input type="text" name="sema_verde"> segundos<br>
-        Tempo Amarelo: <input type="text" name="sema_amarelo"> segundos<br>
-        Tempo Vermelho: <input type="text" name="sema_vermelho"> segundos<br>
-
-        <h2>Semáforo B</h2>
-        Tempo Verde: <input type="text" name="semb_verde"> segundos<br>
-        Tempo Amarelo: <input type="text" name="semb_amarelo"> segundos<br>
-        Tempo Vermelho: <input type="text" name="semb_vermelho"> segundos<br>
-
-        <input type="submit" value="Executar">
-    </form>
+    <div class="container">
+        <h1>Controle de Semáforos</h1>
+        <form action="executar.php" method="post">
+            <h2>Semáforo A</h2>
+            <label for="sema_verde">Tempo Verde:</label>
+            <input type="text" name="sema_verde"> segundos<br>
+            <label for="sema_amarelo">Tempo Amarelo:</label>
+            <input type="text" name="sema_amarelo"> segundos<br>
+            <label for="sema_vermelho">Tempo Vermelho:</label>
+            <input type="text" name="sema_vermelho"> segundos<br>
+    
+            <h2>Semáforo B</h2>
+            <label for="semb_verde">Tempo Verde:</label>
+            <input type="text" name="semb_verde"> segundos<br>
+            <label for="semb_amarelo">Tempo Amarelo:</label>
+            <input type="text" name="semb_amarelo"> segundos<br>
+            <label for="semb_vermelho">Tempo Vermelho:</label>
+            <input type="text" name="semb_vermelho"> segundos<br>
+    
+            <input type="submit" value="Executar">
+        </form>
+    </div>
 </body>
 </html>
