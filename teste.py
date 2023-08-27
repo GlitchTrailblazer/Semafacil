@@ -4,42 +4,80 @@ import argparse
 import signal
 import sys
 
-# Setup
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(18, GPIO.OUT)  # Pino para a luz vermelha
-GPIO.setup(15, GPIO.OUT)  # Pino para a luz âmbar
-GPIO.setup(14, GPIO.OUT)  # Pino para a luz verde
+# Função para ligar um LED específico
+def ligar_led(pino, duracao):
+    GPIO.output(pino, True)
+    time.sleep(duracao)
+    GPIO.output(pino, False)
 
-# Função para acender uma luz específica
-def turn_on_light(pin, duration):
-    GPIO.output(pin, True)
-    time.sleep(duration)
-    GPIO.output(pin, False)
+# Função para fazer uma luz piscar intermitentemente
+def intermitente(pino, duracao_total, intervalo):
+    inicio = time.time()
+    while time.time() - inicio < duracao_total:
+        GPIO.output(pino, True)
+        time.sleep(intervalo)
+        GPIO.output(pino, False)
+        time.sleep(intervalo)
 
 # Configuração dos argumentos da linha de comando
-parser = argparse.ArgumentParser(description="Control the traffic light.")
-parser.add_argument("-vermelha", action="store_true", help="Acender luz vermelha")
-parser.add_argument("-amarela", action="store_true", help="Acender luz amarela")
-parser.add_argument("-verde", action="store_true", help="Acender luz verde")
-parser.add_argument("-tempo", type=int, default=3, help="Tempo que a luz ficará acesa")
+parser = argparse.ArgumentParser(description="Controlar os semáforos.")
+parser.add_argument("-SEMA", nargs=3, metavar=("tempo_verde", "tempo_amarelo", "tempo_vermelho"), help="Configuração do semáforo A (verde, amarelo, vermelho)")
+parser.add_argument("-SEMB", nargs=3, metavar=("tempo_verde", "tempo_amarelo", "tempo_vermelho"), help="Configuração do semáforo B (verde, amarelo, vermelho)")
+parser.add_argument("-intermitente", type=str, nargs=2, metavar=("pino", "duracao_total"), help="Fazer um LED piscar intermitentemente por um período de tempo (adicionar 'i' após o tempo)")
 
 args = parser.parse_args()
 
-# Turn off all lights when user ends demo
-def allLightsOff(signal, frame):
-        GPIO.output(18, False)
-        GPIO.output(15, False)
-        GPIO.output(14, False)
-        GPIO.cleanup()
-        sys.exit(0)
+# Mapeamento dos pinos dos semáforos A e B
+pino_semaforos = {
+    "A": {"verde": 14, "amarelo": 15, "vermelho": 18},
+    "B": {"verde": 16, "amarelo": 20, "vermelho": 21}
+}
 
-signal.signal(signal.SIGINT, allLightsOff)
+# Verificar se algum argumento foi inserido
+if not (args.SEMA or args.SEMB or args.intermitente):
+    print("Erro: Nenhuma configuração de semáforo inserida. Use os argumentos -SEMA ou -SEMB para configurar os semáforos.")
+    print("Exemplo: python3 codigo.py -SEMA 5 2 3 -SEMB 4 1 2")
+    sys.exit(1)
 
-# Acender a luz especificada
-if args.vermelha:
-    turn_on_light(18, args.tempo)
-elif args.amarela:
-    turn_on_light(15, args.tempo)
-elif args.verde:
-    turn_on_light(14, args.tempo)
+# Configuração
+GPIO.setmode(GPIO.BCM)
+for semaforo in pino_semaforos.values():
+    GPIO.setup(semaforo["verde"], GPIO.OUT)
+    GPIO.setup(semaforo["amarelo"], GPIO.OUT)
+    GPIO.setup(semaforo["vermelho"], GPIO.OUT)
+
+# Desligar todas as luzes quando o usuário encerra a demonstração
+def desligar_todas_luzes(sinal, quadro):
+    for semaforo in pino_semaforos.values():
+        GPIO.output(semaforo["verde"], False)
+        GPIO.output(semaforo["amarelo"], False)
+        GPIO.output(semaforo["vermelho"], False)
+    GPIO.cleanup()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, desligar_todas_luzes)
+
+# Acender as luzes especificadas em ambos os semáforos
+for semaforo, pinos in pino_semaforos.items():
+    if semaforo == "A" and args.SEMA:
+        verde, amarelo, vermelho = args.SEMA
+    elif semaforo == "B" and args.SEMB:
+        verde, amarelo, vermelho = args.SEMB
+    else:
+        continue
+    
+    if verde:
+        if "i" in str(amarelo):
+            intermitente(pinos["verde"], int(verde), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        else:
+            ligar_led(pinos["verde"], int(verde))
+    if amarelo:
+        if "i" in str(amarelo):
+            intermitente(pinos["amarelo"], int(amarelo), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        else:
+            ligar_led(pinos["amarelo"], int(amarelo))
+    if vermelho:
+        if "i" in str(vermelho):
+            intermitente(pinos["vermelho"], int(vermelho), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        else:
+            ligar_led(pinos["vermelho"], int(vermelho))
