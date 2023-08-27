@@ -19,6 +19,10 @@ def intermitente(pino, duracao_total, intervalo):
         GPIO.output(pino, False)
         time.sleep(intervalo)
 
+# Função para determinar se o valor contém "i" para intermitência
+def is_intermitente(valor):
+    return valor[-1] == "i"
+
 # Configuração dos argumentos da linha de comando
 parser = argparse.ArgumentParser(description="Controlar os semáforos.")
 parser.add_argument("-SEMA", nargs=3, metavar=("tempo_verde", "tempo_amarelo", "tempo_vermelho"), help="Configuração do semáforo A (verde, amarelo, vermelho)")
@@ -67,17 +71,17 @@ for semaforo, pinos in pino_semaforos.items():
         continue
     
     if verde:
-        if "i" in str(amarelo):
-            intermitente(pinos["verde"], int(verde), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        if is_intermitente(verde):
+            intermitente(pinos["verde"], int(verde[:-1]), 0.5)  # Piscar intermitentemente por 0.5 segundos
         else:
             ligar_led(pinos["verde"], int(verde))
     if amarelo:
-        if "i" in str(amarelo):
-            intermitente(pinos["amarelo"], int(amarelo), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        if is_intermitente(amarelo):
+            intermitente(pinos["amarelo"], int(amarelo[:-1]), 0.5)  # Piscar intermitentemente por 0.5 segundos
         else:
             ligar_led(pinos["amarelo"], int(amarelo))
     if vermelho:
-        if "i" in str(vermelho):
-            intermitente(pinos["vermelho"], int(vermelho), 0.5)  # Piscar intermitentemente por 0.5 segundos
+        if is_intermitente(vermelho):
+            intermitente(pinos["vermelho"], int(vermelho[:-1]), 0.5)  # Piscar intermitentemente por 0.5 segundos
         else:
             ligar_led(pinos["vermelho"], int(vermelho))
