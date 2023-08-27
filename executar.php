@@ -19,5 +19,7 @@ if ($semb_verde || $semb_amarelo || $semb_vermelho) {
 
 shell_exec($cmd);
 
-echo "Execução concluída";
+// Redirecionar para o index após a execução
+header("Location: index.html");
+exit();
 ?>
