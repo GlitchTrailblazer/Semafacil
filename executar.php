@@ -1,9 +1,23 @@
 <?php
-echo 'ESTOU AQUI';
-$command = escapeshellcmd('sudo python3 teste.py -SEMA 5 0 0');
-echo 'ESTOU AQUI 1';
-$output = shell_exec($command);
-echo 'ESTOU AQUI 2!';
-echo $output;
 
+$sema_verde = $_POST['sema_verde'] ?? '0';
+$sema_amarelo = $_POST['sema_amarelo'] ?? '0';
+$sema_vermelho = $_POST['sema_vermelho'] ?? '0';
+
+$semb_verde = $_POST['semb_verde'] ?? '0';
+$semb_amarelo = $_POST['semb_amarelo'] ?? '0';
+$semb_vermelho = $_POST['semb_vermelho'] ?? '0';
+
+$cmd = "python3 teste.py";
+
+if ($sema_verde || $sema_amarelo || $sema_vermelho) {
+    $cmd .= " -SEMA $sema_verde $sema_amarelo $sema_vermelho";
+}
+if ($semb_verde || $semb_amarelo || $semb_vermelho) {
+    $cmd .= " -SEMB $semb_verde $semb_amarelo $semb_vermelho";
+}
+
+shell_exec($cmd);
+
+echo "Execução concluída";
 ?>
