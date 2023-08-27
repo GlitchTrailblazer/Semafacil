@@ -1,28 +1,22 @@
-#!/usr/bin/env python3
-import cgi
-import subprocess
+<?php
+$sema_verde = $_POST['sema_verde'] ?? '0';
+$sema_amarelo = $_POST['sema_amarelo'] ?? '0';
+$sema_vermelho = $_POST['sema_vermelho'] ?? '0';
 
-# Lê os dados do formulário
-form = cgi.FieldStorage()
-sema_verde = form.getvalue('sema_verde', '0')
-sema_amarelo = form.getvalue('sema_amarelo', '0')
-sema_vermelho = form.getvalue('sema_vermelho', '0')
+$semb_verde = $_POST['semb_verde'] ?? '0';
+$semb_amarelo = $_POST['semb_amarelo'] ?? '0';
+$semb_vermelho = $_POST['semb_vermelho'] ?? '0';
 
-semb_verde = form.getvalue('semb_verde', '0')
-semb_amarelo = form.getvalue('semb_amarelo', '0')
-semb_vermelho = form.getvalue('semb_vermelho', '0')
+$cmd = "python3 codigo.py";
 
-# Chama o programa de semáforos com os parâmetros
-cmd = ['python3', 'codigo.py']
-if sema_verde or sema_amarelo or sema_vermelho:
-    cmd.extend(['-SEMA', sema_verde, sema_amarelo, sema_vermelho])
-if semb_verde or semb_amarelo or semb_vermelho:
-    cmd.extend(['-SEMB', semb_verde, semb_amarelo, semb_vermelho])
+if ($sema_verde || $sema_amarelo || $sema_vermelho) {
+    $cmd .= " -SEMA $sema_verde $sema_amarelo $sema_vermelho";
+}
+if ($semb_verde || $semb_amarelo || $semb_vermelho) {
+    $cmd .= " -SEMB $semb_verde $semb_amarelo $semb_vermelho";
+}
 
-subprocess.run(cmd)
+exec($cmd);
 
-# Redireciona para uma página de confirmação
-print("Content-type: text/html\n")
-print("<html><body>")
-print("<h1>Execução concluída</h1>")
-print("</body></html>")
+echo "Execução concluída";
+?>
