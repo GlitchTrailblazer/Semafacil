@@ -1,14 +1,14 @@
-import RPi.GPIO as GPIO
+from gpiozero import LED
 import time
 import argparse
 import signal
 import sys
 
 # Função para ligar um LED específico
-def ligar_led(pino, duracao):
-    GPIO.output(pino, GPIO.HIGH)
+def ligar_led(led, duracao):
+    led.on()
     time.sleep(duracao)
-    GPIO.output(pino, GPIO.LOW)
+    led.off()
 
 # Configuração dos argumentos da linha de comando
 parser = argparse.ArgumentParser(description="Controlar os semáforos.")
@@ -27,28 +27,28 @@ pino_semaforos = {
 if not (args.SEMA or args.SEMB):
     print("Erro: Nenhuma configuração de semáforo inserida. Use os argumentos -SEMA ou -SEMB para configurar os semáforos.")
     print("Exemplo: python3 codigo.py -SEMA 5 2 3 -SEMB 4 1 2")
-    sys.exit(1)
+    sys.exit(1)https://github.com/GlitchTrailblazer/Semafacil/blob/main/semafacilnonroot.py
 
-# Configuração
-GPIO.setmode(GPIO.BCM)
-for semaforo in pino_semaforos.values():
-    GPIO.setup(semaforo["verde"], GPIO.OUT)
-    GPIO.setup(semaforo["amarelo"], GPIO.OUT)
-    GPIO.setup(semaforo["vermelho"], GPIO.OUT)
+# Configuração dos LEDs
+leds = {}
+for semaforo, pinos in pino_semaforos.items():
+    leds[semaforo] = {
+        "verde": LED(pinos["verde"]),
+        "amarelo": LED(pinos["amarelo"]),
+        "vermelho": LED(pinos["vermelho"])
+    }
 
 # Desligar todas as luzes quando o usuário encerra a demonstração
 def desligar_todas_luzes(sinal, quadro):
-    for semaforo in pino_semaforos.values():
-        GPIO.output(semaforo["verde"], False)
-        GPIO.output(semaforo["amarelo"], False)
-        GPIO.output(semaforo["vermelho"], False)
-    GPIO.cleanup()
+    for semaforo_leds in leds.values():
+        for led in semaforo_leds.values():
+            led.off()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, desligar_todas_luzes)
 
 # Acender as luzes especificadas em ambos os semáforos
-for semaforo, pinos in pino_semaforos.items():
+for semaforo, led_dict in leds.items():
     if semaforo == "A" and args.SEMA:
         verde, amarelo, vermelho = args.SEMA
     elif semaforo == "B" and args.SEMB:
@@ -57,8 +57,8 @@ for semaforo, pinos in pino_semaforos.items():
         continue
     
     if verde:
-        ligar_led(pinos["verde"], verde)
+        ligar_led(led_dict["verde"], verde)
     if amarelo:
-        ligar_led(pinos["amarelo"], amarelo)
+        ligar_led(led_dict["amarelo"], amarelo)
     if vermelho:
-        ligar_led(pinos["vermelho"], vermelho)
+        ligar_led(led_dict["vermelho"], vermelho)
