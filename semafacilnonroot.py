@@ -27,7 +27,7 @@ pino_semaforos = {
 if not (args.SEMA or args.SEMB):
     print("Erro: Nenhuma configuração de semáforo inserida. Use os argumentos -SEMA ou -SEMB para configurar os semáforos.")
     print("Exemplo: python3 codigo.py -SEMA 5 2 3 -SEMB 4 1 2")
-    sys.exit(1)https://github.com/GlitchTrailblazer/Semafacil/blob/main/semafacilnonroot.py
+    sys.exit(1)
 
 # Configuração dos LEDs
 leds = {}
